@@ -1,36 +1,35 @@
 import time
 
-
-class Clock :
-    def __init__(self, hour, minture) -> None:
+class Clock:
+    def __init__(self, hour, minute) -> None:
         self.hour = hour
-        self.minture = minture
+        self.minute = minute
         self.second = 0
 
-class MintureClock(Clock):
-    def __init__(self, hour, minture) -> None:
-        super().__init__( hour, minture)
-    
-    def setMinture(self, minture):
-        self.minture = minture
-    
-    def getMinture(self):
-        return self.minture
+class MinuteClock(Clock):
+    def __init__(self, hour, minute) -> None:
+        super().__init__(hour, minute)
 
-    def countTime(self):
-        self.minture += 1
-        # self.second += 1
-        # if ( self.second == 60 ):
-            # self.minture += 1
-            # self.second = 0
-        if ( self.minture == 60 ):
+    def set_minute(self, minute):
+        self.minute = minute
+
+    def get_minute(self):
+        return self.minute
+
+    def count_time(self):
+        self.minute += 1  # Increment seconds first
+        #if self.second == 60:
+         #   self.minute += 1
+          #  self.second = 0
+        if self.minute == 60:
             self.hour += 1
-            self.minture = 0
+            self.minute = 0
+        if self.hour == 24:
+            self.hour = 0
 
 if __name__ == '__main__':
-    
-    clock = MintureClock( 8, 49 )
+    clock = MinuteClock(23, 49)
     while True:
-        print( f'{clock.hour}:{clock.minture}', end='\r' )
-        clock.countTime()
+        print(f'{clock.hour:02d}:{clock.minute:02d}', end='\r')  # Format for 2 digits
+        clock.count_time()
         time.sleep(1)
