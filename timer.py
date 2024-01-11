@@ -30,10 +30,10 @@ class AmPmClockDisplay(ClockDisplay):
         self.toggle_am_pm_if_needed()
 
     def toggle_am_pm_if_needed(self):
-        if self.hour.v == 13 and self.minute.v == 00:
+        if self.hour.v == 12 and self.minute.v == 00:
             self.am_pm = "AM" if self.am_pm == "PM" else "PM" 
-            self.hour.v =1
-            self.minute.v = 0
+        if self.hour.v == 13 and self.minute.v == 00:
+            self.hour.v == 1
 
     def display_time(self):
         return f"{self.hour.v:02d}:{self.minute.v:02d} {self.am_pm}"
