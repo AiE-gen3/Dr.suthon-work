@@ -1,35 +1,27 @@
 import time
 
-class Clock:
-    def __init__(self, hour, minute) -> None:
-        self.hour = hour
-        self.minute = minute
-        self.second = 0
+class NumberDisplay:
+    def __init__(self, initValue):
+        self.v = initValue
 
-class MinuteClock(Clock):
-    def __init__(self, hour, minute) -> None:
-        super().__init__(hour, minute)
+    def tick(self):
+        self.v = (self.v + 1) % 60
 
-    def set_minute(self, minute):
-        self.minute = minute
+class ClockDisplay:
+    def __init__(self, hourValue, minuteValue):
+        self.hour = NumberDisplay(hourValue)
+        self.minute = NumberDisplay(minuteValue)
 
-    def get_minute(self):
-        return self.minute
+    def tick(self):
+        self.minute.tick()
+        if self.minute.v == 0:
+            self.hour.tick()
 
-    def count_time(self):
-        self.minute += 1  # Increment seconds first
-        #if self.second == 60:
-         #   self.minute += 1
-          #  self.second = 0
-        if self.minute == 60:
-            self.hour += 1
-            self.minute = 0
-        if self.hour == 24:
-            self.hour = 0
+    def run(self):
+        while True:
+            print(f"{self.hour.v:02d}:{self.minute.v:02d}", end='\r')
+            time.sleep(1)
+            self.tick()
 
-if __name__ == '__main__':
-    clock = MinuteClock(23, 49)
-    while True:
-        print(f'{clock.hour:02d}:{clock.minute:02d}', end='\r')  # Format for 2 digits
-        clock.count_time()
-        time.sleep(1)
+clock = ClockDisplay(15, 30)
+clock.run()
